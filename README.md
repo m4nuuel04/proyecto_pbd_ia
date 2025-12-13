@@ -1,17 +1,17 @@
-# 🤖 Agente de Base de Datos con IA
+# Agente de Base de Datos con IA
 
 Un asistente inteligente que permite consultar bases de datos PostgreSQL y MongoDB usando lenguaje natural. Utiliza modelos de lenguaje (LLM) con Ollama para generar consultas SQL y PyMongo automáticamente.
 
-## ✨ Características
+## Características
 
-- 🗣️ **Consultas en lenguaje natural**: Pregunta en español y obtén respuestas de tu base de datos
-- 🔄 **Soporte multi-base de datos**: Compatible con PostgreSQL y MongoDB
-- 🖥️ **Interfaz dual**: CLI interactiva y GUI moderna con CustomTkinter
-- 🎨 **Respuestas formateadas**: Salida colorizada en terminal y renderizado de markdown en GUI
-- 🧠 **Powered by Ollama**: Utiliza modelos LLM locales para privacidad y control
-- 📊 **Sistema de evaluación**: Herramientas para medir la precisión de las consultas generadas
+- **Consultas en lenguaje natural**: Pregunta en español y obtén respuestas de tu base de datos
+- **Soporte multi-base de datos**: Compatible con PostgreSQL y MongoDB
+- **Interfaz dual**: CLI interactiva y GUI moderna con CustomTkinter
+- **Respuestas formateadas**: Salida colorizada en terminal y renderizado de markdown en GUI
+- **Powered by Ollama**: Utiliza modelos LLM locales para privacidad y control
+- **Sistema de evaluación**: Herramientas para medir la precisión de las consultas generadas
 
-## 🚀 Instalación
+## Instalación
 
 ### Requisitos previos
 
@@ -85,13 +85,13 @@ python gui.py
 ```
 
 La GUI ofrece:
-- 🎯 Selector de base de datos (PostgreSQL/MongoDB)
-- 💬 Chat interactivo con historial
-- 🎨 Renderizado de markdown para respuestas formateadas
-- 📝 Visualización de código SQL/PyMongo generado
-- ⚡ Ejecución asíncrona sin bloquear la interfaz
+- Selector de base de datos (PostgreSQL/MongoDB)
+- Chat interactivo con historial
+- Renderizado de markdown para respuestas formateadas
+- Visualización de código SQL/PyMongo generado
+- Ejecución asíncrona sin bloquear la interfaz
 
-## 🏗️ Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 proyecto_pbd_ia/
@@ -111,7 +111,7 @@ proyecto_pbd_ia/
 └── .env.example             # Plantilla de configuración
 ```
 
-## 🔧 Componentes Principales
+## Componentes Principales
 
 ### SQL Agent (`src/agents/sql_agent.py`)
 - Genera consultas SQL a partir de lenguaje natural
@@ -128,7 +128,7 @@ proyecto_pbd_ia/
 - Compatibilidad entre diferentes sistemas operativos
 - Prevención de errores de codificación
 
-## 🎯 Ejemplos de Consultas
+## Ejemplos de Consultas
 
 ### PostgreSQL
 ```
@@ -146,7 +146,7 @@ Muestra los pedidos del último mes
 Busca usuarios con email que contenga "gmail"
 ```
 
-## 🧪 Evaluación
+## Evaluación
 
 Ejecuta el sistema de evaluación para medir la precisión del agente:
 
@@ -155,11 +155,11 @@ python evaluation/evaluate.py
 ```
 
 Esto ejecutará casos de prueba predefinidos y mostrará:
-- ✅ Estado de cada consulta (SUCCESS/FAILED)
-- ⏱️ Tiempo de ejecución
-- 📊 Resumen de resultados
+- Estado de cada consulta (SUCCESS/FAILED)
+- Tiempo de ejecución
+- Resumen de resultados
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 - **LangChain**: Framework para aplicaciones con LLM
 - **Ollama**: Ejecución local de modelos de lenguaje
@@ -169,7 +169,7 @@ Esto ejecutará casos de prueba predefinidos y mostrará:
 - **Colorama**: Salida colorizada en terminal
 - **Python-dotenv**: Gestión de variables de entorno
 
-## 🐛 Solución de Problemas
+## Solución de Problemas
 
 ### Error de codificación UTF-8
 El proyecto incluye utilidades especiales para manejar problemas de codificación. Si encuentras errores, asegúrate de que:
@@ -188,11 +188,11 @@ Revisa:
 - Que los servicios de PostgreSQL/MongoDB estén activos
 - Los puertos de conexión (5432 para PostgreSQL, 27017 para MongoDB)
 
-## 📝 Licencia
+## Licencia
 
 Este proyecto es de código abierto y está disponible bajo la licencia MIT.
 
-## 🤝 Contribuciones
+## Contribuciones
 
 Las contribuciones son bienvenidas. Por favor:
 1. Haz fork del proyecto
@@ -201,7 +201,7 @@ Las contribuciones son bienvenidas. Por favor:
 4. Push a la rama (`git push origin feature/AmazingFeature`)
 5. Abre un Pull Request
 
-## 📧 Contacto
+## Contacto
 
 Para preguntas o sugerencias, por favor abre un issue en el repositorio.
 
