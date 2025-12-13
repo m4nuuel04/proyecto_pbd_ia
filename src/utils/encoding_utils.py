@@ -22,6 +22,7 @@ def safe_load_dotenv(dotenv_path: Optional[str] = None, verbose: bool = False) -
     Returns:
         True if .env was loaded successfully, False otherwise.
     """
+    from io import StringIO
     from dotenv import load_dotenv
     
     # Determine .env file path
@@ -41,8 +42,12 @@ def safe_load_dotenv(dotenv_path: Optional[str] = None, verbose: bool = False) -
     
     for encoding in encodings:
         try:
-            # Try to load with current encoding
-            load_dotenv(dotenv_path=str(dotenv_path), encoding=encoding)
+            # Read file content with specific encoding
+            with open(dotenv_path, 'r', encoding=encoding) as f:
+                content = f.read()
+            
+            # Load environment variables from the content
+            load_dotenv(stream=StringIO(content))
             
             # If we used a fallback encoding, warn the user
             if encoding != 'utf-8' and verbose:

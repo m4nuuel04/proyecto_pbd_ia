@@ -1,5 +1,9 @@
 import os
 import argparse
+
+# IMPORTANTE: Importar psycopg2_fix ANTES de cualquier agente que use psycopg2
+from src.utils import psycopg2_fix
+
 from src.utils.encoding_utils import safe_load_dotenv
 from src.agents.sql_agent import run_sql_agent
 from src.agents.mongo_agent import run_mongo_agent

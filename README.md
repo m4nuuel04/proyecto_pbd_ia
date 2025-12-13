@@ -48,11 +48,35 @@ MONGO_URI=mongodb://localhost:27017/
 MONGO_DB_NAME=llm_agent_db
 ```
 
-4. **Iniciar Ollama**
+4. **Inicializar la base de datos**
 
-Asegúrate de tener Ollama ejecutándose con un modelo compatible (por ejemplo, `llama2` o `mistral`):
+Ejecuta el script de configuración para crear las tablas y datos de prueba:
 ```bash
-ollama run llama2
+python src/utils/setup_db.py
+```
+
+> **Nota importante sobre encoding UTF-8**: Si recibes errores de tipo `UnicodeDecodeError` al conectar con PostgreSQL, es probable que tu instalación tenga una configuración de locale incompatible (como `Spanish_Spain.1252` en Windows). Para solucionarlo:
+>
+> ```bash
+> # 1. Recrear la base de datos con encoding UTF-8
+> python recreate_db.py
+> 
+> # 2. Poblar con datos de prueba
+> python src/utils/setup_db.py
+> ```
+>
+> Esto creará la base de datos con configuración UTF-8 compatible, resolviendo problemas de encoding.
+
+5. **Iniciar Ollama**
+
+Asegúrate de tener Ollama ejecutándose con un modelo compatible (por ejemplo, `llama3` o `mistral`):
+```bash
+ollama serve
+```
+
+En otra terminal, descarga el modelo si no lo tienes:
+```bash
+ollama pull llama3
 ```
 
 ## 📖 Uso
@@ -171,7 +195,27 @@ Esto ejecutará casos de prueba predefinidos y mostrará:
 
 ## Solución de Problemas
 
-### Error de codificación UTF-8
+### Error de codificación UTF-8 con PostgreSQL
+
+**Síntoma**: `UnicodeDecodeError: 'utf-8' codec can't decode byte 0xab/0xf3...`
+
+**Causa**: PostgreSQL instalado con locale incompatible (común en Windows con `Spanish_Spain.1252`).
+
+**Solución**:
+```bash
+# 1. Recrear la base de datos con UTF-8
+python recreate_db.py
+
+# 2. Poblar con datos de prueba
+python src/utils/setup_db.py
+
+# 3. Asegurarse de que Ollama esté ejecutándose
+ollama serve
+```
+
+El proyecto incluye protecciones automáticas de encoding (`psycopg2_fix`) que se activan al iniciar el programa. Si otro usuario no experimenta estos errores, es porque su PostgreSQL ya está configurado con locale UTF-8.
+
+### Error de codificación general
 El proyecto incluye utilidades especiales para manejar problemas de codificación. Si encuentras errores, asegúrate de que:
 - Tu terminal soporta UTF-8
 - Los archivos `.env` están guardados con codificación UTF-8

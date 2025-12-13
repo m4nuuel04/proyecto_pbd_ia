@@ -1,8 +1,12 @@
+# IMPORTANTE: Importar el fix ANTES de cualquier otra cosa
+from src.utils import psycopg2_fix
+
 from langchain_community.utilities import SQLDatabase
 from langchain_ollama import ChatOllama
 import os
 import re
 from src.utils.encoding_utils import safe_load_dotenv
+from sqlalchemy import create_engine
 
 safe_load_dotenv()
 
@@ -16,9 +20,39 @@ def run_sql_agent(query: str):
         return {"error": "Error: POSTGRES_URI environment variable not set."}
     
     try:
-        # 1. Setup
-        # Force sample_rows=0 to avoid privacy leaks / overhead, just getting schema
-        db = SQLDatabase.from_uri(db_uri, sample_rows_in_table_info=0)
+        # 1. Setup - Conexión robusta con manejo de encoding
+        from sqlalchemy import event
+        from sqlalchemy.pool import Pool
+        import warnings
+        
+        # Crear engine con configuración básica
+        # El problema de encoding se maneja a nivel de configuración de PostgreSQL
+        engine_args = {
+            'pool_pre_ping': True,
+            'connect_args': {
+                'client_encoding': 'utf8'
+            }
+        }
+        
+        engine = create_engine(db_uri, **engine_args)
+        
+        # Event listener para configurar la sesión después de conectar
+        @event.listens_for(engine, "connect")
+        def set_session_config(dbapi_connection, connection_record):
+            """Configura la sesión para usar UTF-8 y locale C"""
+            cursor = dbapi_connection.cursor()
+            try:
+                cursor.execute("SET CLIENT_ENCODING TO 'UTF8'")
+                cursor.execute("SET lc_messages TO 'C'")
+                cursor.execute("SET lc_monetary TO 'C'")
+                cursor.execute("SET lc_numeric TO 'C'")
+                cursor.execute("SET lc_time TO 'C'")
+            except:
+                pass
+            finally:
+                cursor.close()
+        
+        db = SQLDatabase(engine, sample_rows_in_table_info=0)
         llm = ChatOllama(model="llama3", temperature=0)
         
         # 2. Get Schema
@@ -89,9 +123,11 @@ def run_sql_agent(query: str):
         }
 
     except Exception as e:
+        import traceback
+        error_msg = f"{str(e)}\n\nTraceback:\n{traceback.format_exc()}"
         return {
             "answer": "Ocurrió un error inesperado.",
             "sql_queries": [],
             "raw_results": [],
-            "error": str(e)
+            "error": error_msg
         }

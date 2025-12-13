@@ -26,8 +26,8 @@ def create_postgres_database():
         exists = cursor.fetchone()
         
         if not exists:
-            print(f"Creating Postgres database '{NEW_DB_NAME}'...")
-            cursor.execute(f"CREATE DATABASE {NEW_DB_NAME}")
+            print(f"Creating Postgres database '{NEW_DB_NAME}' with UTF8 encoding...")
+            cursor.execute(f"CREATE DATABASE {NEW_DB_NAME} ENCODING 'UTF8' LC_COLLATE 'C' LC_CTYPE 'C' TEMPLATE template0")
         else:
             print(f"Postgres database '{NEW_DB_NAME}' already exists.")
             
