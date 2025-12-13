@@ -1,0 +1,10 @@
+langchain
+langchain-ollama
+langchain-community
+psycopg2-binary
+python-dotenv
+tabulate
+colorama
+pymongo
+customtkinter
+pyinstaller
