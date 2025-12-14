@@ -43,14 +43,14 @@ def recreate_database():
             TEMPLATE template0
         """)
         
-        print(f"✓ Base de datos '{NEW_DB_NAME}' recreada correctamente con UTF8")
+        print(f"Base de datos '{NEW_DB_NAME}' recreada correctamente con UTF8")
         
         cursor.close()
         conn.close()
         
         return True
     except Exception as e:
-        print(f"✗ Error recreando la base de datos: {repr(e)}")
+        print(f"Error recreando la base de datos: {repr(e)}")
         return False
 
 if __name__ == "__main__":
