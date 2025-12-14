@@ -193,11 +193,17 @@ def populate_mongo():
         # Sample Data: Orders
         orders_data = []
         statuses = ["pending", "completed", "shipped", "cancelled"]
+        products = ["Laptop", "Mouse", "Keyboard", "Monitor", "Headphones", "Webcam"]
         
         for i in range(15):
-            user_id = random.choice(user_ids)
+            user_idx = random.randint(0, len(users_data) - 1)
+            user_id = user_ids[user_idx]
+            user_name = users_data[user_idx]["name"]
+            
             order = {
                 "user_id": user_id,
+                "user_name": user_name,  # Denormalized for easier queries
+                "product": random.choice(products),
                 "total_amount": round(random.uniform(20.0, 500.0), 2),
                 "status": random.choice(statuses),
                 "created_at": datetime.now()

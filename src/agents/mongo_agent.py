@@ -55,8 +55,14 @@ def run_mongo_agent(query: str):
             "2. Asume que existe una variable `db` que ya es la conexión a la base de datos.\n"
             "3. El código debe ejecutar la consulta y guardar el resultado en una variable llamada `result`.\n"
             "4. `result` debe ser una lista de diccionarios (usa `list(cursor)` si es necesario) o un valor simple (count).\n"
-            "5. NO importes nada, NO conectes cliente, usa `db`.\n"
-            "6. Ejemplo: result = list(db.users.find({'name': 'Alice'}))\n"
+            "5. NO uses ObjectId() ni formato JSON extendido de MongoDB como {{'$oid': '...'}}.\n"
+            "6. Para buscar por campos de texto, usa directamente strings: {{'nombre': 'Bob'}}\n"
+            "7. Para buscar por _id (si es necesario), usa from bson import ObjectId y ObjectId('id_string').\n"
+            "8. NO importes pymongo ni MongoClient, solo usa `db` directamente.\n"
+            "9. Ejemplos válidos:\n"
+            "   - result = list(db.users.find({{'name': 'Alice'}}))\n"
+            "   - result = list(db.orders.find({{'user_name': 'Bob'}}))\n"
+            "   - result = db.users.count_documents({{}})\n"
         )
         
         response_gen = llm.invoke(generation_prompt)
@@ -83,7 +89,9 @@ def run_mongo_agent(query: str):
         # 4. Execute Code (Explicit Step 2)
         # WARNING: Executing generated code is dangerous. In a real prod env, this needs strict sandboxing.
         # For this prototype local CLI, we use exec with restricted locals.
-        local_scope = {'db': db}
+        # Import ObjectId in case the generated code needs it
+        from bson import ObjectId
+        local_scope = {'db': db, 'ObjectId': ObjectId}
         try:
             exec(generated_code, {}, local_scope)
             raw_result = local_scope.get('result', "No result variable found")
