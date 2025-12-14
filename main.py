@@ -61,7 +61,7 @@ def main():
         return
 
     # Interactive mode
-    print(f"{Fore.MAGENTA}🤖 Agente de Base de Datos LLM (Modo Interactivo)")
+    print(f"{Fore.MAGENTA}Agente de Base de Datos LLM (Modo Interactivo)")
     print(f"{Fore.WHITE}Base de datos actual: {Fore.YELLOW}{current_db.upper()}")
     print(f"Escribe 'switch mongo' o 'switch postgres' para cambiar de DB.")
     print(f"Escribe 'salir' o 'exit' para terminar.\n")
